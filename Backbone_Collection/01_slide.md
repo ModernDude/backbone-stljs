@@ -201,16 +201,17 @@ without, indexOf, lastIndexOf, isEmpty, chain
 
 	@@@ JavaScript
 	var coll = new Backbone.Collection([
-		{animal: "dog", food: "kibbles and bits"},
-		{animal: "cat", food: "fancy feast"},
-		{animal: "human", food: "twinkies"}]);
+		{name: "Marty McFly", age: 18},
+		{name: "Biff Tannen", age: 38},]);
 		
-	var res = coll.map(function(a) {
-		return a.get("food") === "twinkies" ? 
-			"die young" : "long life";
-	});
-	
-	log(res);
+	var future = function(coll, years) {
+		return coll.map(function(m) {
+			return {
+				name: m.get("name"),
+				age: m.get("age") + years}})
+	};
+	var theFuture = future(coll, 29);
+	log(theFuture);
 	
 	
 !SLIDE execute
