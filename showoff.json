@@ -6,4 +6,5 @@
     {"section": "Backbone_Collection"},
     {"section": "Backbone_sync"},
     {"section": "Backbone_View"},
-    {"section": "Backbone_Router"}]}
+    {"section": "Backbone_Router"},
+    {"section": "End"}]}
