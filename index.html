@@ -1,0 +1,950 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Backbone.JS</title>
+
+  <meta name="viewport" content="width=device-width"/>
+
+  <link rel="stylesheet" href="./css/reset.css" type="text/css"/>
+  <link rel="stylesheet" href="./css/showoff.css" type="text/css"/>
+
+  <script type="text/javascript" src="./js/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="./js/jquery.cycle.all.js"></script>
+	<script type="text/javascript" src="./js/jquery-print.js"></script>
+  <script type="text/javascript" src="./js/jquery.batchImageLoad.js"></script>
+
+  <script type="text/javascript" src="./js/jquery.doubletap-0.1.js"></script>
+
+  <script type="text/javascript" src="./js/fg.menu.js"></script>
+  <script type="text/javascript" src="./js/showoff.js"></script>
+  <script type="text/javascript" src="./js/jTypeWriter.js"> </script>
+  <script type="text/javascript" src="./js/sh_main.min.js"></script>
+  <script type="text/javascript" src="./js/core.js"></script>
+  <script type="text/javascript" src="./js/showoffcore.js"></script>
+  <script type="text/javascript" src="./js/coffee-script.js"></script>
+
+  <link type="text/css" href="./css/fg.menu.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="./css/theme/ui.all.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="./css/sh_style.css" rel="stylesheet" >
+
+  
+
+  
+    <script type="text/javascript" src="file/scripts.js"></script>
+  
+
+  <script type="text/javascript">
+  $(function(){
+      setupPreso(false, './');
+  });
+  </script>
+
+</head>
+
+<body>
+
+<a tabindex="0" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="navmenu"><span class="ui-icon ui-icon-triangle-1-s"></span>slides</a>
+<div id="navigation" class="hidden"></div>
+
+<div id="help">
+  <table>
+    <tr><td class="key">z, ?</td><td>toggle help (this)</td></tr>
+    <tr><td class="key">space, &rarr;</td><td>next slide</td></tr>
+    <tr><td class="key">shift-space, &larr;</td><td>previous slide</td></tr>
+    <tr><td class="key">d</td><td>toggle debug mode</td></tr>
+    <tr><td class="key">## &lt;ret&gt;</td><td>go to slide #</td></tr>
+    <tr><td class="key">c, t</td><td>table of contents (vi)</td></tr>
+    <tr><td class="key">f</td><td>toggle footer</td></tr>
+    <tr><td class="key">r</td><td>reload slides</td></tr>
+    <tr><td class="key">n</td><td>toggle notes</td></tr>
+    <tr><td class="key">p</td><td>run preshow</td></tr>
+  </table>
+</div>
+
+<div class="buttonNav">
+  <input type="submit" onClick="prevStep();" value="prev"/>
+  <input type="submit" onClick="nextStep();" value="next"/>
+</div>
+
+<div id="preso">loading presentation...</div>
+<div id="footer">
+  <span id="slideInfo"></span>
+  <span id="debugInfo"></span>
+  <span id="notesInfo"></span>
+</div>
+
+<div id="slides" class="offscreen" style="display:none;">
+<div class="slide" data-transition="none"><div class="content" ref="Overview/01_slide/1">
+<h1>Backbone JS</h1>
+
+<h2>STLJS <strong>11/17/11</strong></h2>
+
+<h2>@jeffsigmon</h2></div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Overview/01_slide/2">
+<h1>What's The Deal</h1>
+
+<ul>
+<li>Model</li>
+<li>Views</li>
+<li>Router</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Overview/01_slide/3">
+<h1>Dependencies</h1>
+
+<ul>
+<li>underscore.js</li>
+<li>json2.js (rest/hist)</li>
+<li>jquery/zepto (rest/hist)</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_Events/01_slide/1">
+<h1>Backbone.Events</h1>
+
+<ul>
+<li>Provides ability for objects to bind and trigger custom named events.</li>
+<li>Events do not have to be declared before they are bound.</li>
+<li>Events may take passed arguments.</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Events/01_slide/2">
+<h1>Extend, Bind, Trigger, Oh My...</h1>
+
+<pre class="sh_javascript"><code>
+var cow = {};
+
+_.extend(cow, Backbone.Events);
+
+cow.bind("jump", function(msg) {
+    log("I just jumped: " + msg);
+});
+
+cow.trigger("jump", "over the moon");</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Events/01_slide/3">
+<h1>'All' Knowing</h1>
+
+<pre class="sh_javascript"><code>var cow = {};
+_.extend(cow, Backbone.Events);
+
+cow.bind("jump", function(msg) {
+    log("I just jumped: " + msg);
+});
+
+cow.bind("all", function(eventName, msg) {
+    log("I know what you did last trigger: " 
+        + eventName);
+});
+
+cow.trigger("jump", "over the moon");</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Events/01_slide/4">
+<h1>Event Name Convention</h1>
+
+<h2>Namespace events using a colon as a separator</h2>
+
+<ul>
+<li>poll:start</li>
+<li>change:name</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Events/01_slide/5">
+<h1>Providing Context</h1>
+
+<h2>This is it</h2></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Events/01_slide/6">
+<h1>This is bad</h1></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Events/01_slide/7">
+<pre class="sh_javascript"><code>var Moon = function() {
+    this.distract = function() {
+        this.trigger("distracted");
+    };
+};
+_.extend(Moon.prototype, Backbone.Events);
+var Cow = function() {
+    this.target = "over the moon";
+    this.jump = function() {
+        log("jump:" + this.target);
+    };
+};
+var cow = new Cow(),
+    moon = new Moon();
+moon.bind("distracted", cow.jump);
+moon.distract();</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Events/01_slide/8">
+<h1>This is good</h1></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Events/01_slide/9">
+<pre class="sh_javascript"><code>var Moon = function () {
+    this.distract = function() {
+        this.trigger("distracted");
+    };
+};
+_.extend(Moon.prototype, Backbone.Events);
+var Cow = function () {
+    this.target = "over the moon";
+    this.jump = function() {
+        log("jump:" + this.target);
+    };
+};
+var cow = new Cow (),
+    moon = new Moon ();
+moon.bind("distracted", cow.jump, cow);
+moon.distract();</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_Events/01_slide/10">
+<h1>unbind</h1>
+
+<pre class="sh_javascript"><code>//remove the onChange callback
+object.unbind("change", onChange);
+
+// Removes all "change" callbacks.
+object.unbind("change");            
+
+// Removes all callbacks on object.
+object.unbind();                    </code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Events/01_slide/11">
+<h1>Trigger Arguments</h1>
+
+<pre class="sh_javascript"><code>
+var cow = {};
+_.extend(cow, Backbone.Events);
+
+cow.bind("jump", function(over, the, moon) {
+    log(over + " " + the + " " + moon);
+});
+cow.trigger("jump", "over", "the", "moon");</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_Model/01_slide/1">
+<h1>Backbone.Model</h1>
+
+<ul>
+<li>Essence of Application</li>
+<li>Data and Logic</li>
+<li>State Synchronization</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Model/01_slide/2">
+<h1>Definition</h1>
+
+<pre class="sh_javascript"><code>
+var Pig = Backbone.Model.extend({});</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/3">
+<h1>Initialization</h1>
+
+<pre class="sh_javascript"><code>
+var Pig = Backbone.Model.extend({
+
+    initialize:  function() {
+        log("oink oink...");
+    }
+
+});
+
+var pig = new Pig();</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Model/01_slide/4">
+<h1>Attributes</h1></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/5">
+<h1>Initializing Attributes</h1>
+
+<pre class="sh_javascript"><code>
+var Pig = Backbone.Model.extend({});
+
+var pig = new Pig({
+    name: "Wilbur",
+    age: 4});</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/6">
+<h1>Getting Attributes</h1>
+
+<pre class="sh_javascript"><code>
+var Pig = Backbone.Model.extend({});
+
+var pig = new Pig({
+    name: "&lt;script&gt;alert('hi')&lt;/script&gt;",
+    age: 4});
+
+var name = pig.get("name");
+log(name);
+
+name = pig.escape("name");
+log(name);</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/7">
+<h1>Setting Attributes</h1>
+
+<pre class="sh_javascript"><code>
+var Pig = Backbone.Model.extend({});
+
+var pig = new Pig({
+    name: "Wilbur",
+    age: 4});
+
+log(pig.get("name"));
+
+pig.set({name: "Jeff", age: 100});
+
+log(pig.get("name"));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/8">
+<h1>Attribute Existence</h1>
+
+<pre class="sh_javascript"><code>
+var Pig = Backbone.Model.extend({});
+
+var pig = new Pig({name: "Wilbur"});
+
+log(pig.has("name"));
+log(pig.has("color"));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/9">
+<h1>Remove an Attribute</h1>
+
+<pre class="sh_javascript"><code>
+var Pig = Backbone.Model.extend({});
+
+var pig = new Pig({name: "Wilbur"});
+
+log(pig.has("name"));
+
+pig.unset("name");
+
+log(pig.has("name"));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/10">
+<h1>Remove all Attributes</h1>
+
+<pre class="sh_javascript"><code>
+var Pig = Backbone.Model.extend({});
+
+var pig = new Pig({name: "Wilbur", age: 1});
+
+log(pig.has("name"));
+log(pig.has("age"));
+
+pig.clear();
+
+log(pig.has("name"));
+log(pig.has("age"));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/11">
+<h1>Default Attributes</h1>
+
+<pre class="sh_javascript"><code>
+var Pig = Backbone.Model.extend({
+    defaults: {
+        name: "don't know",
+        age: -1
+    } 
+});
+
+var pig = new Pig({age: 22});
+
+log(pig.get("name"));
+log(pig.get("age"));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/12">
+<h1>Cloning</h1>
+
+<pre class="sh_javascript"><code>
+var Pig = Backbone.Model.extend({});
+
+var sam = new Pig({name: "sam", age: 22});
+
+var bill = sam.clone(); 
+
+log(bill.get("name"));
+
+bill.set({name: "bill"});
+
+log(bill.get("name"));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Model/01_slide/13">
+<h1>Logic</h1></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/14">
+<pre class="sh_javascript"><code>var Pig = Backbone.Model.extend({
+    defaults: {meals: 0}, 
+    bellyFull: function () {
+        return this.get("meals") &gt; 2;
+    },
+    feed: function (meal) {
+        if (this.bellyFull()) {
+            this.trigger("puke");
+        } else {
+            this.set({"meals": 
+                this.get("meals") + 1});
+        }
+    }
+});
+var pig = new Pig();
+pig.feed("garbage");</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_Model/01_slide/15">
+<h1>Validation</h1>
+
+<ul>
+<li><strong>Validate</strong> method in each model</li>
+<li>Called before <strong>set</strong> and <strong>save</strong></li>
+<li>Accepts <strong>attributes</strong> to be updated</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_Model/01_slide/16">
+<h1>Validation</h1>
+
+<ul>
+<li>If <strong>Valid</strong>, do not return</li>
+<li>If <strong>Invalid</strong> return error message</li>
+<li>Or custom error object</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_Model/01_slide/17">
+<h1>Validation</h1>
+
+<ul>
+<li>If <strong>Validate</strong> returns string or object,
+<strong>set</strong> or <strong>save</strong> will not proceed.</li>
+<li>In addition, the <strong>error</strong> event will be triggered.</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Model/01_slide/18">
+<h1>Validation Example</h1></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/19">
+<pre class="sh_javascript"><code>var Pig = Backbone.Model.extend({
+    validate: function(attrs) {
+        log("try to set age to: " + attrs.age);
+        if (attrs.age &gt; 100) {
+            return "I'm not that old!";
+        }
+    }
+});
+var pig = new Pig({age: 2});
+
+pig.bind("error", function(model, error) {
+    log(error);
+});
+
+pig.set({age: 191});
+log(pig.get("age"));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Model/01_slide/20">
+<h1>Change Events</h1>
+
+<ul>
+<li><strong>set</strong> attribute triggers a <strong>change</strong> event</li>
+<li><strong>change</strong> events also triggered for specific attributes</li>
+<li><strong>suppress</strong> change events with <em>{silent: true}</em></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Model/01_slide/21">
+<h1>Change Event Example 1</h1></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/22">
+<pre class="sh_javascript"><code>
+var Chicken = Backbone.Model.extend({});
+var chick = new Chicken({status: "sleeping"});
+
+chick.bind("change", function(model) {
+    log("change");
+});
+
+chick.bind("change:status", 
+    function(model, status) {
+        log("change:status");
+});
+
+chick.set({status: "tweeting"});</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Model/01_slide/23">
+<h1>Change Event Example 2</h1></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Model/01_slide/24">
+<pre class="sh_javascript"><code>
+var Chicken = Backbone.Model.extend({});
+var chick = new Chicken({status: "sleeping"});
+
+chick.bind("change", function(model) {
+    log("change");
+});
+
+chick.bind("change:status", 
+    function(model, status) {
+        log("change:status");
+});
+
+chick.set({status: "tweeting"}, 
+    {silent: true});</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Model/01_slide/25">
+<h1>Identity</h1></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="Backbone_Model/01_slide/26">
+<h1>model.id</h1>
+
+<ul>
+<li>Arbitrary <strong>string</strong> (integer id or UUID)</li>
+<li>When set as <strong>attribute</strong>, copied onto the model as a direct <strong>property</strong>.</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="Backbone_Model/01_slide/27">
+<h1>model.cid</h1>
+
+<ul>
+<li>Unique identifier automatically assigned to all models when first created</li>
+<li>take the form: <strong>c1, c2, c3 ...</strong></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="Backbone_Model/01_slide/28">
+<h1>Change Tracking</h1>
+
+<ul>
+<li><strong>hasChanged</strong> determines of attr has changed since last change event</li>
+<li><strong>previous</strong> gets previous value of changed attr</li>
+<li><strong>changedAttributes</strong> get attributes that have changed</li>
+<li><strong>previousAttributes</strong> gets previous attributes</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Collection/01_slide/1">
+<h1>Backbone.Collection</h1></div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_Collection/01_slide/2">
+<h1>Backbone.Collection</h1>
+
+<ul>
+<li>ordered <strong>sets</strong> of models.</li>
+<li>trigger <strong>add</strong> and <strong>remove</strong> events</li>
+<li>trigger any event triggered on <strong>model</strong></li>
+<li>iterable via <strong>underscore.js</strong></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/3">
+<h1>Sets</h1>
+
+<pre class="sh_javascript"><code>
+var Duck = Backbone.Model.extend({}),
+    coll = new Backbone.Collection(),
+    donald = new Duck({name: "donald"});
+
+var add = function(m, s) {
+    try{coll.add(m);log(s);} 
+    catch(e) {log(e);}
+};
+
+add({name: "donald"}, "1");
+add({name: "donald"}, "2");
+add(donald, "3");
+add(donald, "4");</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/4">
+<h1>Add Model</h1>
+
+<pre class="sh_javascript"><code>
+var Duck = Backbone.Model.extend({}),
+    coll = new Backbone.Collection();
+
+coll.bind("add", function(duck) {
+    log("duck added");
+});
+
+coll.add([new Duck({name: "Donald"})]);
+
+log(coll.length);</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/5">
+<h1>Remove Model</h1>
+
+<pre class="sh_javascript"><code>
+var Duck = Backbone.Model.extend({}),
+    coll = new Backbone.Collection(),
+    donald = new Duck({name: "donald"});
+
+coll.bind("remove", function(duck) {
+    log("duck removed");
+});
+
+coll.add(donald);
+coll.remove(donald)
+
+log(coll.length);</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/6">
+<h1>Trigger model events</h1>
+
+<pre class="sh_javascript"><code>
+var Duck = Backbone.Model.extend({}),
+    coll = new Backbone.Collection(),
+    donald = new Duck({age: 1});
+
+coll.add(donald);
+coll.bind("change:age", 
+    function(m, age) {
+        log("age:" + age + " on id:" + m.cid);
+    }
+);
+
+donald.set({age: 2});</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/7">
+<h1>Add Event</h1>
+
+<pre class="sh_javascript"><code>
+var Duck = Backbone.Model.extend({});
+
+var coll = new Backbone.Collection();
+
+coll.add([
+    new Duck({name: "Donald"}), 
+    new Duck({name: "Donald"})]);
+
+log(coll.length);</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/8">
+<h1>Get model by id</h1>
+
+<pre class="sh_javascript"><code>
+var coll = new Backbone.Collection();
+coll.add([
+    {id: 1, name: "one"},
+    {id: 2, name: "two"}]);
+
+var found = coll.get(2);
+
+log(found.get("name"));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/9">
+<h1>Get model by cid</h1>
+
+<pre class="sh_javascript"><code>
+var coll = new Backbone.Collection();
+coll.add([
+    {id: 1, name: "one"},
+    {id: 2, name: "two"}]);
+
+var first = coll.at(1);
+var found = coll.getByCid(first.cid);
+
+log(found.get("name"));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_Collection/01_slide/10">
+<h1>Comparator</h1>
+
+<ul>
+<li>Default <strong>no</strong> comparator</li>
+<li>Function maintains collection <strong>sort</strong> order</li>
+<li>Accepts model returns numeric or string value</li>
+<li>Return value is <strong>compared</strong> against other models</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/11">
+<h1>Comparator Example</h1>
+
+<pre class="sh_javascript"><code>
+var Dog  = Backbone.Model;
+var pound = new Backbone.Collection;
+
+pound.comparator = function(dog) {
+    return dog.get("age");
+};
+
+pound.add(new Dog({age: 9, name: "End"}));
+pound.add(new Dog({age: 5, name: "Middle"}));
+pound.add(new Dog({age: 1, name: "Beginning"}));
+
+log(pound.pluck('name'));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Collection/01_slide/12">
+<h1>Reset</h1>
+
+<h2>Efficient way to bulk load or clear collection.</h2></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/13">
+<h1>Extending a Collection</h1>
+
+<pre class="sh_javascript"><code>var Wolve  = Backbone.Model;
+
+var Pack = Backbone.Collection.extend({
+    model: Wolve,
+    initialize : function() {
+        log("could also set comparator");
+    }
+});
+
+var pack = new Pack([
+    new Wolve({name: "white fang"}),
+    new Wolve({name: "black flag"})]);</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_Collection/01_slide/14">
+<h1>Proxies to Underscore.js for 26 iteration functions</h1>
+
+<p>forEach (each), map, reduce (foldl, inject), reduceRight (foldr), find (detect)
+filter (select), reject, every (all), some (any), include, invoke
+max, min, sortBy, groupBy, sortedIndex, toArray, size, first, rest, last
+without, indexOf, lastIndexOf, isEmpty, chain</p></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/15">
+<h1>Map</h1>
+
+<pre class="sh_javascript"><code>var coll = new Backbone.Collection([
+    {name: "Marty McFly", age: 18},
+    {name: "Biff Tannen", age: 38},]);
+
+var future = function(coll, years) {
+    return coll.map(function(m) {
+        return {
+            name: m.get("name"),
+            age: m.get("age") + years}})
+};
+var theFuture = future(coll, 29);
+log(theFuture);</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_Collection/01_slide/16">
+<h1>Reduce</h1>
+
+<pre class="sh_javascript"><code>var coll = new Backbone.Collection([
+    {animal: "dog", age: 1},
+    {animal: "cat", age: 3},
+    {animal: "human", age: 6 }]);
+//get product of ages   
+var res = coll.reduce(function(memo, val) {
+    return memo * val.get("age");
+}, 1);
+
+log(res);</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_sync/01_slide/1">
+<h1>Backbone.sync</h1>
+
+<ul>
+<li><strong>Function</strong> called to <strong>read</strong> or <strong>save</strong> a model to the server</li>
+<li>Default, uses (jQuery/Zepto).ajax to make a RESTful <strong>JSON</strong> request.</li>
+<li><strong>Override</strong> it in order to use a different persistence strategy</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content bullets" ref="Backbone_sync/01_slide/2">
+<h1><em>sync(method, model, [options])</em></h1>
+
+<ul>
+<li><strong>method</strong> &#x2013; the CRUD method ("create", "read", "update", or "delete")</li>
+<li><strong>model</strong> &#x2013; the model to be saved (or collection to be read)</li>
+<li><strong>options</strong> &#x2013; success and error callbacks, and all other jQuery request options</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content bullets" ref="Backbone_sync/01_slide/3">
+<h1>CRUD to REST Mapping</h1>
+
+<ul>
+<li>create &#x2192; <strong>POST</strong>   /collection</li>
+<li>read &#x2192; <strong>GET</strong>   /collection[/id]</li>
+<li>update &#x2192; <strong>PUT</strong>   /collection/id</li>
+<li>delete &#x2192; <strong>DELETE</strong>   /collection/id</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_sync/01_slide/4">
+<h1>The Payload</h1>
+
+<h2>Backbone.sync sends up a request to save a model, its attributes will be passed, serialized as JSON, and sent in the HTTP body with content-type application/json.</h2></div>
+</div><div class="slide" data-transition="none"><div class="content bullets" ref="Backbone_sync/01_slide/5">
+<h1>Persistence Functions</h1>
+
+<ul>
+<li>model.fetch</li>
+<li>model.save</li>
+<li>model.destroy</li>
+<li>collection.create</li>
+<li>collection.fetch</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_sync/01_slide/6">
+<h1>backbone.localStorage.js</h1></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_sync/01_slide/7">
+<h1>Local Storage With Models</h1>
+
+<h2>https://github.com/k33g/ossicle</h2></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_sync/01_slide/8">
+<h1>Save a Model</h1>
+
+<pre class="sh_javascript"><code>
+var House = Backbone.Model.extend({
+    storeName : "houseDB"
+});
+
+var house = new House(
+    {id:1, brick: "of course"});
+
+house.save(null, {
+    success: function (e) {
+        log("saved");
+    }
+});</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_sync/01_slide/9">
+<h1>Fetch a Model</h1>
+
+<pre class="sh_javascript"><code>
+var House = Backbone.Model.extend({
+    storeName : "houseDB"
+});
+
+var house = new House({id:1});
+
+house.fetch({
+    success: function (m) {
+        log("found: " + m.get("brick") );
+    }
+});   </code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_sync/01_slide/10">
+<h1>Destroy a Model</h1>
+
+<pre class="sh_javascript"><code>
+var House = Backbone.Model.extend({
+    storeName : "houseDB"
+});
+
+var house = new House({id:1});
+
+house.destroy({
+    success: function (m, r) {
+        log("get lost punk" );
+    }
+});</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_sync/01_slide/11">
+<h1>Are You Sure?</h1>
+
+<pre class="sh_javascript"><code>
+var House = Backbone.Model.extend({
+    storeName : "houseDB"
+});
+
+var house = new House({id:1});
+
+house.fetch({
+    error: function (m) {
+        log("thank god");
+    }
+});</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_sync/01_slide/12">
+<h1>But I Don't Know My ID!</h1>
+
+<pre class="sh_javascript"><code>
+var House = Backbone.Model.extend({
+    storeName : "houseDB"
+});
+
+var house = new House({brick: "who cares"});
+log(house.isNew());
+house.save();
+log(house.isNew());
+log(house.cid);
+log(house.id);</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_sync/01_slide/13">
+<h1>Fetch A Collection</h1>
+
+<pre class="sh_javascript"><code>
+var House = Backbone.Model.extend({storeName : "house2DB"});
+var Ghetto = Backbone.Collection.extend({model : House, storeName : "house2DB"});
+
+var house1 = new House({id:1, name: "house1"});
+var house2 = new House({id:2, name: "house2"});
+house1.save();
+house2.save();
+var ghetto = new Ghetto();
+ghetto.fetch({error : 
+    function(coll, res) {
+        log(coll);
+    }
+});</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_View/01_slide/1">
+<h1>Backbone.View</h1>
+
+<ul>
+<li>Organize interface into logical <strong>views</strong>, backed by <strong>models</strong></li>
+<li>Each <strong>view</strong> can be updated independently when the <strong>model</strong> changes</li>
+<li>Do not re-render entire page for changes! DUH!</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_View/01_slide/2">
+<h1>Backbone.View</h1>
+
+<ul>
+<li>bind view's <strong>render</strong> function to the model's <strong>change</strong> event</li>
+<li>Do not dictate <strong>HTML</strong> or <strong>CSS</strong> structure</li>
+<li>Use with any templating library</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_View/01_slide/3">
+<h1>view.el</h1>
+
+<ul>
+<li>All views have a DOM element at all times</li>
+<li>Created from the view's <strong>tagName</strong>, <strong>className</strong>, and <strong>id</strong> properties</li>
+<li>In not specified, a <strong>div</strong> is used</li>
+<li>Can assign <strong>el</strong> to pre-existing elem</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_View/01_slide/4">
+<h1>Simplest View</h1>
+
+
+<iframe style="width: 100%; height: 80%" src="http://jsfiddle.net/jeffsigmon/wBd2x/embedded/js,html,result,css/presentation/" allowfullscreen="allowfullscreen" frameborder="0"/>
+
+
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_View/01_slide/5">
+<h1>$</h1>
+
+<h2>If jQuery or Zepto is included on the page, each view has a $ function that runs queries scoped within the view's element.</h2></div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_View/01_slide/6">
+<h1>Events Hash</h1>
+
+<ul>
+<li>When extending <strong>view</strong>, declare events hash for dom</li>
+<li>Events are written in the format:</li>
+<li><strong>{"event selector": "callback"}</strong></li>
+<li>Omitting <strong>selector</strong> causes event to be bound to the view's <strong>root</strong> element</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_View/01_slide/7">
+<h1>Events Hash Example</h1>
+
+
+<iframe style="width: 100%; height: 80%" src="http://jsfiddle.net/jeffsigmon/7cAZ8/embedded/js,html,result,css/presentation/" allowfullscreen="allowfullscreen" frameborder="0"/>
+
+
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_View/01_slide/8">
+<h1>Model in the View</h1>
+
+<h2>A model or collection can passed into the constructor function of a view.</h2></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_View/01_slide/9">
+<h1>Model Binding Example</h1>
+
+
+<iframe style="width: 100%; height: 80%" src="http://jsfiddle.net/jeffsigmon/7tvVc/embedded/js,html,result,css/presentation/" allowfullscreen="allowfullscreen" frameborder="0"/>
+
+
+</div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_View/01_slide/10">
+<h1>_ template</h1>
+
+<ul>
+<li>Compiles templates into functions that can be evaluated for rendering</li>
+<li>Useful for rendering complicated bits of HTML from JSON</li>
+<li><strong>&lt;%= &#x2026; %&gt;</strong> Interpolate Variables</li>
+<li><strong>&lt;% &#x2026; %&gt;</strong> Eval Statements or Expressions</li>
+<li><strong>&lt;%- &#x2026; %&gt;</strong> Html Escape Expression</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content bullets incremental" ref="Backbone_View/01_slide/11">
+<h1>Two Ways To Use Templates</h1>
+
+<ul>
+<li>Create a compiled function that can be evaled over diff context</li>
+<li>Immediately return template results from a source and context</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_View/01_slide/12">
+<h1>Template Example 1</h1>
+
+<pre class="sh_javascript"><code>var compiled = 
+    _.template("you won a: &lt;%= prize %&gt;");
+
+log(compiled({prize : 'pizza'}));
+log(compiled({prize : 'zebra donkey'}))</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content execute" ref="Backbone_View/01_slide/13">
+<h1>Template Example 2</h1>
+
+<pre class="sh_javascript"><code>var list = 
+    "&lt;% _.each(people,  function(name) { %&gt; " +
+    "&lt;li&gt;&lt;%= name %&gt;&lt;/li&gt; &lt;% }); %&gt;";
+log(_.template(list, {
+    people : [
+        'moe', 
+        'curly', 
+        'larry']}));</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="Backbone_View/01_slide/14">
+<h1>Template Example 3</h1>
+
+
+<iframe style="width: 100%; height: 80%" src="http://jsfiddle.net/jeffsigmon/Kb4zn/embedded/js,html,result,css/presentation/" allowfullscreen="allowfullscreen" frameborder="0"/>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="End/01_slides/1">
+<h1>THE END</h1></div>
+</div><div class="slide" data-transition="none"><div class="content bullets" ref="End/01_slides/2">
+<h1>References</h1>
+
+<ul>
+<li><a href="http://documentcloud.github.com/backbone">Backbone.JS</a></li>
+<li><a href="http://www.stljs.org">STLJS</a></li>
+</ul>
+</div>
+</div></div>
+
+</body>
+</html>
